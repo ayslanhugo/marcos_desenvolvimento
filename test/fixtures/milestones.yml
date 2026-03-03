@@ -1,0 +1,17 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  titulo: MyString
+  descricao: MyText
+  categoria: MyString
+  idade_minima_meses: 1
+  idade_maxima_meses: 1
+  tipo_desenvolvimento: 1
+
+two:
+  titulo: MyString
+  descricao: MyText
+  categoria: MyString
+  idade_minima_meses: 1
+  idade_maxima_meses: 1
+  tipo_desenvolvimento: 1

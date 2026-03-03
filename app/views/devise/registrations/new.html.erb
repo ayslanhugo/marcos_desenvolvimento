@@ -1,0 +1,81 @@
+<div class="min-h-[80vh] flex flex-col justify-center py-12 sm:px-6 lg:px-8 bg-gray-50">
+  
+  <div class="sm:mx-auto sm:w-full sm:max-w-md text-center">
+    <div class="mx-auto w-16 h-16 bg-blue-100 text-blue-600 rounded-full flex items-center justify-center mb-4 shadow-sm">
+      <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+      </svg>
+    </div>
+    <h2 class="text-3xl font-extrabold text-blue-900">Crie sua conta</h2>
+    <p class="mt-2 text-sm text-gray-600">
+      É rápido, gratuito e seguro. Junte-se a nós!
+    </p>
+  </div>
+
+  <div class="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
+    <div class="bg-white py-8 px-4 shadow-xl shadow-blue-100/50 sm:rounded-2xl sm:px-10 border border-gray-100">
+      
+      <%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { class: "space-y-6" }) do |f| %>
+        
+        <% # Bloco de Erros Customizado e Bonito %>
+        <% if resource.errors.any? %>
+          <div class="bg-red-50 p-4 rounded-xl border border-red-200 mb-6">
+            <h3 class="text-sm font-bold text-red-800 flex items-center">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" /></svg>
+              Ops! Verifique os dados:
+            </h3>
+            <ul class="list-disc list-inside text-xs text-red-700 mt-2 space-y-1">
+              <% resource.errors.full_messages.each do |message| %>
+                <li><%= message %></li>
+              <% end %>
+            </ul>
+          </div>
+        <% end %>
+
+        <div>
+          <%= f.label :email, "Seu melhor e-mail", class: "block text-sm font-semibold text-gray-700" %>
+          <div class="mt-1">
+            <%= f.email_field :email, autofocus: true, autocomplete: "email", placeholder: "exemplo@email.com", class: "appearance-none block w-full px-4 py-3 border border-gray-300 rounded-xl shadow-sm placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm transition" %>
+          </div>
+        </div>
+
+        <div>
+          <%= f.label :password, class: "block text-sm font-semibold text-gray-700" do %>
+            Crie uma senha segura
+            <% if @minimum_password_length %>
+              <span class="text-xs text-gray-400 font-normal ml-1">(mínimo <%= @minimum_password_length %> caracteres)</span>
+            <% end %>
+          <% end %>
+          <div class="mt-1">
+            <%= f.password_field :password, autocomplete: "new-password", placeholder: "••••••••", class: "appearance-none block w-full px-4 py-3 border border-gray-300 rounded-xl shadow-sm placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm transition" %>
+          </div>
+        </div>
+
+        <div>
+          <%= f.label :password_confirmation, "Confirme sua senha", class: "block text-sm font-semibold text-gray-700" %>
+          <div class="mt-1">
+            <%= f.password_field :password_confirmation, autocomplete: "new-password", placeholder: "••••••••", class: "appearance-none block w-full px-4 py-3 border border-gray-300 rounded-xl shadow-sm placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm transition" %>
+          </div>
+        </div>
+
+        <div>
+          <%= f.submit "Criar minha conta", class: "w-full flex justify-center py-3 px-4 border border-transparent rounded-xl shadow-md text-sm font-bold text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition cursor-pointer" %>
+        </div>
+      <% end %>
+
+      <div class="mt-6 border-t border-gray-100 pt-6">
+        <div class="text-center">
+          <p class="text-sm text-gray-600">
+            Já tem uma conta? 
+            <%= link_to "Fazer login", new_session_path(resource_name), class: "font-bold text-blue-600 hover:text-blue-500 transition" %>
+          </p>
+        </div>
+      </div>
+      
+    </div>
+    
+    <p class="mt-8 text-center text-xs text-gray-500">
+      Ao se cadastrar, você concorda com nossos termos de privacidade.<br>Seus dados estão seguros conosco.
+    </p>
+  </div>
+</div>

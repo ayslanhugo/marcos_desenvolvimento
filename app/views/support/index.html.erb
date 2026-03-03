@@ -1,0 +1,85 @@
+<div class="max-w-4xl mx-auto mt-10 px-4 pb-20">
+  
+  <header class="text-center mb-12">
+    <div class="inline-block p-3 bg-blue-100 text-blue-600 rounded-2xl mb-4">
+      <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 005.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
+      </svg>
+    </div>
+    <h1 class="text-3xl font-extrabold text-blue-900 mb-4">Rede de Apoio e Orientações</h1>
+    <p class="text-gray-600 max-w-2xl mx-auto">Você não está sozinho(a). Existem profissionais e instituições preparados para auxiliar no desenvolvimento do seu filho.</p>
+  </header>
+
+  <section class="mb-12 bg-linear-to-br from-blue-600 to-blue-800 rounded-3xl p-8 text-white shadow-xl shadow-blue-200">
+    <h2 class="text-xl font-bold mb-6 flex items-center gap-2">
+      <span class="bg-blue-500 p-1 rounded-lg">🚀</span> Primeiros Passos Recomendados
+    </h2>
+    <div class="grid md:grid-cols-3 gap-6">
+      <div class="bg-white/10 p-4 rounded-2xl backdrop-blur-sm">
+        <span class="text-2xl font-bold block mb-2">01</span>
+        <h3 class="font-bold mb-1 text-blue-100">Mantenha a Calma</h3>
+        <p class="text-xs opacity-90 leading-relaxed">Cada criança tem seu ritmo. Um marco atrasado é apenas um sinal para observação, não um diagnóstico definitivo.</p>
+      </div>
+      <div class="bg-white/10 p-4 rounded-2xl backdrop-blur-sm">
+        <span class="text-2xl font-bold block mb-2">02</span>
+        <h3 class="font-bold mb-1 text-blue-100">Gere o Relatório</h3>
+        <p class="text-xs opacity-90 leading-relaxed">Use a função "Gerar Relatório Médico" deste app para levar os dados anotados e facilitar a conversa com o profissional.</p>
+      </div>
+      <div class="bg-white/10 p-4 rounded-2xl backdrop-blur-sm">
+        <span class="text-2xl font-bold block mb-2">03</span>
+        <h3 class="font-bold mb-1 text-blue-100">Agende Pediatra</h3>
+        <p class="text-xs opacity-90 leading-relaxed">O pediatra é o profissional capacitado para avaliar se há necessidade de encaminhamento para especialistas.</p>
+      </div>
+    </div>
+  </section>
+
+  <div class="grid md:grid-cols-2 gap-8">
+    <div class="bg-white p-6 rounded-3xl border border-gray-100 shadow-sm">
+      <div class="flex items-center gap-3 mb-4">
+        <div class="p-2 bg-green-100 text-green-600 rounded-xl">
+          <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" /></svg>
+        </div>
+        <h3 class="font-bold text-gray-800">Telefones e Emergência</h3>
+      </div>
+      <ul class="space-y-4">
+        <li class="flex justify-between items-center p-3 bg-gray-50 rounded-2xl">
+          <div>
+            <p class="text-xs text-gray-500 font-bold uppercase">Disque Saúde</p>
+            <p class="font-black text-blue-900">136</p>
+          </div>
+          <span class="text-[10px] bg-white px-2 py-1 rounded-full border">SUS</span>
+        </li>
+        <li class="flex justify-between items-center p-3 bg-gray-50 rounded-2xl">
+          <div>
+            <p class="text-xs text-gray-500 font-bold uppercase">SAMU</p>
+            <p class="font-black text-blue-900">192</p>
+          </div>
+          <span class="text-[10px] bg-white px-2 py-1 rounded-full border">Emergência</span>
+        </li>
+      </ul>
+    </div>
+
+    <div class="bg-white p-6 rounded-3xl border border-gray-100 shadow-sm">
+      <div class="flex items-center gap-3 mb-4">
+        <div class="p-2 bg-purple-100 text-purple-600 rounded-xl">
+          <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" /></svg>
+        </div>
+        <h3 class="font-bold text-gray-800">Portais e Comunidades</h3>
+      </div>
+      <div class="space-y-3">
+        <%= link_to "https://www.gov.br/saude/pt-br/assuntos/saude-da-crianca", target: "_blank", class: "flex items-center justify-between p-3 border border-gray-100 rounded-2xl hover:bg-purple-50 transition" do %>
+          <span class="text-sm font-medium text-gray-700">Saúde da Criança (Gov)</span>
+          <span class="text-purple-600">→</span>
+        <% end %>
+        <%= link_to "https://www.movimentodown.org.br/", target: "_blank", class: "flex items-center justify-between p-3 border border-gray-100 rounded-2xl hover:bg-purple-50 transition" do %>
+          <span class="text-sm font-medium text-gray-700">Movimento Down</span>
+          <span class="text-purple-600">→</span>
+        <% end %>
+      </div>
+    </div>
+  </div>
+
+  <footer class="mt-12 text-center">
+    <%= link_to "Voltar ao Início", root_path, class: "text-gray-400 hover:text-blue-600 font-bold text-sm" %>
+  </footer>
+</div>
