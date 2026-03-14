@@ -41,5 +41,24 @@ Pré-requisitos: Ruby (v3.2+) e Node.js instalados.
 
 1. Clone este repositório:
    ```bash
-   git clone [https://github.com/seu-usuario/marcos_desenvolvimento.git](https://github.com/ayslanhugo/marcos_desenvolvimento.git)
+   git clone [https://github.com/ayslanhugo/marcos_desenvolvimento.git](https://github.com/ayslanhugo/marcos_desenvolvimento.git)
    cd marcos_desenvolvimento
+
+2. Instale as dependências:
+
+    Bash
+    bundle install
+3. Prepare o banco de dados:
+
+    Bash
+    rails db:create db:migrate
+
+# Opcional: Popular banco com dados fictícios para testes
+    rails db:seed
+4. Inicie o servidor de desenvolvimento:
+
+    Bash
+    bin/dev
+5. Acesse no navegador: http://localhost:3000
+
+Desenvolvido por Ayslan Hugo - 2026.
