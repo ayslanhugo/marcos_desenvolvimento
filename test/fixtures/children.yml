@@ -1,13 +1,6 @@
-# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
-
-one:
-  nome: MyString
-  data_nascimento: 2026-02-27
-  tipo_desenvolvimento: 1
-  user: one
-
-two:
-  nome: MyString
-  data_nascimento: 2026-02-27
-  tipo_desenvolvimento: 1
-  user: two
+# test/fixtures/children.yml
+athos:
+  nome: Athos
+  data_nascimento: <%= 5.months.ago.to_date %>
+  tipo_desenvolvimento: 0 # 0 é 'tipico', 1 seria 'down'
+  user: responsavel # Faz o vínculo com o usuário acima

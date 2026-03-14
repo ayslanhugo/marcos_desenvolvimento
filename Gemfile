@@ -71,3 +71,5 @@ gem "devise-i18n"
 gem "chartkick", "~> 5.2"
 
 gem "importmap-rails", "~> 2.2"
+
+gem "minitest", "~> 5.21"

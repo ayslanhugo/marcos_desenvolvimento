@@ -1,23 +1,30 @@
 require "test_helper"
 
 class ChildrenControllerTest < ActionDispatch::IntegrationTest
-  test "should get index" do
-    get children_index_url
-    assert_response :success
+  # Incluímos os ajudantes do Devise para simular login
+  include Devise::Test::IntegrationHelpers
+
+  setup do
+    # Antes de cada teste, carregamos o usuário do arquivo fixtures
+    @user = users(:responsavel)
   end
 
-  test "should get show" do
-    get children_show_url
-    assert_response :success
+  test "nao deve acessar a pagina inicial de criancas sem login" do
+    # Tentamos entrar na página sem fazer login
+    get children_url
+
+    # O teste SÓ passa se o sistema nos chutar para a tela de login
+    assert_redirected_to new_user_session_url
   end
 
-  test "should get new" do
-    get children_new_url
-    assert_response :success
-  end
+  test "deve acessar a pagina de criancas se estiver logado" do
+    # Simulamos o login
+    sign_in @user
 
-  test "should get create" do
-    get children_create_url
+    # Tentamos entrar na página
+    get children_url
+
+    # O teste SÓ passa se a tela carregar com sucesso (Código 200)
     assert_response :success
   end
 end
