@@ -1,0 +1,19 @@
+<div class="min-h-[70vh] flex flex-col items-center justify-center px-4 transition-colors duration-300">
+  
+  <div class="bg-white dark:bg-gray-900 border border-gray-100 dark:border-gray-800 p-10 md:p-16 rounded-[3rem] shadow-xl text-center max-w-2xl w-full">
+    <div class="text-8xl md:text-9xl mb-6 animate-bounce-slow">🧭</div>
+    
+    <h1 class="text-6xl font-black text-blue-900 dark:text-blue-400 mb-4 tracking-tighter">404</h1>
+    <h2 class="text-2xl font-bold text-gray-800 dark:text-gray-100 mb-4">Ops! Nos perdemos no caminho.</h2>
+    
+    <p class="text-gray-500 dark:text-gray-400 mb-10 leading-relaxed">
+      A página que você está procurando não existe, foi movida ou o link está incorreto. Mas não se preocupe, o desenvolvimento da criança continua!
+    </p>
+
+    <%= link_to root_path, class: "inline-flex items-center justify-center px-8 py-4 text-lg font-bold text-white bg-blue-600 dark:bg-blue-700 rounded-2xl hover:bg-blue-700 dark:hover:bg-blue-600 hover:scale-105 transition-all shadow-lg shadow-blue-200 dark:shadow-none group" do %>
+      <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-3 group-hover:-translate-x-2 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" /></svg>
+      Voltar para o Início
+    <% end %>
+  </div>
+
+</div>

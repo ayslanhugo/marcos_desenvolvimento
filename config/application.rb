@@ -10,6 +10,7 @@ module MarcosDesenvolvimento
   class Application < Rails::Application
     # Initialize configuration defaults for originally generated Rails version.
     config.load_defaults 8.0
+    config.exceptions_app = self.routes
     # Define o idioma padrão do projeto
     config.i18n.default_locale = :"pt-BR"
     # Please, add to the `ignore` list any other `lib` subdirectories that do

@@ -1,24 +1,37 @@
 class ProgressesController < ApplicationController
-  before_action :authenticate_user!
+  before_action :set_child
+  before_action :set_milestone, only: [ :create ]
 
   def create
-    @child = current_user.children.find(params[:child_id])
-    @milestone = Milestone.find(params[:milestone_id])
+    @progress = @child.progresses.find_or_initialize_by(milestone: @milestone)
 
-    # Busca um registro existente ou cria um novo (find_or_initialize)
-    @progress = Progress.find_or_initialize_by(child: @child, milestone: @milestone)
-
-    if @progress.new_record?
-      @progress.status = :alcancado
-      @progress.data_alcance = Date.today
-      @progress.save
-      notice_msg = "Marco '#{@milestone.titulo}' alcançado! Parabéns! 🎉"
+    if @progress.update(progress_params)
+      # Mantemos a inteligência clínica que você já tinha construído!
+      if @progress.red_flag?
+        flash[:alert] = "Atenção: Este marco sugere uma avaliação com o pediatra."
+      else
+        flash[:notice] = "Progresso salvo com sucesso!"
+      end
     else
-      @progress.destroy
-      notice_msg = "Registro removido."
+      # Se der erro, agora o Rails vai nos contar exatamente o porquê:
+      flash[:alert] = "Não foi possível salvar o progresso: #{@progress.errors.full_messages.to_sentence}"
     end
 
-    # Redireciona de volta para a página da criança
-    redirect_to child_path(@child, mes: params[:mes]), notice: notice_msg
+    redirect_to child_path(@child)
+  end
+
+  private
+
+  def set_child
+    @child = current_user.children.find(params[:child_id])
+  end
+
+  def set_milestone
+    @milestone = Milestone.find(params[:milestone_id] || params[:progress][:milestone_id])
+  end
+
+  def progress_params
+    # Adicionamos o :milestone_id aqui para garantir que o Rails não bloqueie o ID que vem do Modal
+    params.require(:progress).permit(:status, :notes, :milestone_id)
   end
 end

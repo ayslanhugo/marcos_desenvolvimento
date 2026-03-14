@@ -1,58 +1,58 @@
-<div class="bg-gray-50 overflow-hidden">
+<div class="bg-gray-50 dark:bg-gray-950 overflow-hidden transition-colors duration-300">
   
-  <section class="relative py-20 md:py-32 overflow-hidden bg-linear-to-b from-blue-50 to-gray-50">
+  <section class="relative py-20 md:py-32 overflow-hidden bg-linear-to-b from-blue-50 to-gray-50 dark:from-blue-950/20 dark:to-gray-950 transition-colors duration-300">
     <div class="container mx-auto px-4 relative z-10">
       <div class="max-w-3xl">
         <div class="inline-block px-4 py-1.5 bg-blue-600 text-white rounded-full text-xs font-black uppercase tracking-widest mb-6">
           Vigilância em Saúde
         </div>
-        <h1 class="text-5xl md:text-7xl font-black text-blue-900 mb-8 leading-tight">
-          Acompanhe cada <span class="text-blue-600">conquista</span> do seu pequeno.
+        <h1 class="text-5xl md:text-7xl font-black text-blue-900 dark:text-blue-400 mb-8 leading-tight transition-colors">
+          Acompanhe cada <span class="text-blue-600 dark:text-blue-500">conquista</span> do seu pequeno.
         </h1>
-        <p class="text-xl text-gray-600 mb-10 leading-relaxed">
+        <p class="text-xl text-gray-600 dark:text-gray-300 mb-10 leading-relaxed transition-colors">
           Uma plataforma baseada em evidências científicas para monitorar os marcos do desenvolvimento infantil, respeitando o tempo de cada criança e a neurodiversidade.
         </p>
         <div class="flex flex-col sm:flex-row gap-4">
-          <%= link_to "Começar Agora (Grátis)", new_user_registration_path, class: "px-10 py-5 bg-blue-600 text-white rounded-2xl font-black text-lg text-center hover:bg-blue-700 transition shadow-2xl shadow-blue-200" %>
-          <%= link_to "Entenda a Ciência", learn_path, class: "px-10 py-5 bg-white text-blue-900 border border-gray-200 rounded-2xl font-bold text-lg text-center hover:bg-gray-50 transition" %>
+          <%= link_to "Começar Agora (Grátis)", new_user_registration_path, class: "px-10 py-5 bg-blue-600 text-white rounded-2xl font-black text-lg text-center hover:bg-blue-700 transition shadow-2xl shadow-blue-200 dark:shadow-none" %>
+          <%= link_to "Entenda a Ciência", learn_path, class: "px-10 py-5 bg-white dark:bg-gray-800 text-blue-900 dark:text-blue-300 border border-gray-200 dark:border-gray-700 rounded-2xl font-bold text-lg text-center hover:bg-gray-50 dark:hover:bg-gray-700 transition" %>
         </div>
       </div>
     </div>
     
     <div class="hidden lg:block absolute top-1/2 right-0 transform -translate-y-1/2 translate-x-1/4">
-      <div class="w-[600px] h-[600px] bg-blue-600/5 rounded-full blur-3xl"></div>
+      <div class="w-[600px] h-[600px] bg-blue-600/5 dark:bg-blue-500/10 rounded-full blur-3xl transition-colors"></div>
     </div>
   </section>
 
   <section class="py-24 container mx-auto px-4">
     <div class="grid md:grid-cols-3 gap-12">
-      <div class="p-8 bg-white rounded-4xl shadow-sm border border-gray-100 hover:shadow-xl transition duration-500">
-        <div class="w-16 h-16 bg-blue-100 text-blue-600 rounded-2xl flex items-center justify-center text-3xl mb-8">📊</div>
-        <h3 class="text-xl font-black text-blue-900 mb-4 italic">Vigilância Preditiva</h3>
-        <p class="text-gray-500 text-sm leading-relaxed">
+      <div class="p-8 bg-white dark:bg-gray-900 rounded-4xl shadow-sm border border-gray-100 dark:border-gray-800 hover:shadow-xl dark:hover:shadow-blue-900/10 transition duration-500">
+        <div class="w-16 h-16 bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-400 rounded-2xl flex items-center justify-center text-3xl mb-8 transition-colors">📊</div>
+        <h3 class="text-xl font-black text-blue-900 dark:text-blue-300 mb-4 italic transition-colors">Vigilância Preditiva</h3>
+        <p class="text-gray-500 dark:text-gray-400 text-sm leading-relaxed transition-colors">
           Monitoramento ativo através de janelas de tempo baseadas nos protocolos da OMS e do Ministério da Saúde.
         </p>
       </div>
 
-      <div class="p-8 bg-white rounded-4xl shadow-sm border border-gray-100 hover:shadow-xl transition duration-500">
-        <div class="w-16 h-16 bg-purple-100 text-purple-600 rounded-2xl flex items-center justify-center text-3xl mb-8">🧬</div>
-        <h3 class="text-xl font-black text-indigo-900 mb-4 italic">Neurodiversidade</h3>
-        <p class="text-gray-500 text-sm leading-relaxed">
+      <div class="p-8 bg-white dark:bg-gray-900 rounded-4xl shadow-sm border border-gray-100 dark:border-gray-800 hover:shadow-xl dark:hover:shadow-indigo-900/10 transition duration-500">
+        <div class="w-16 h-16 bg-purple-100 dark:bg-purple-900/40 text-purple-600 dark:text-purple-400 rounded-2xl flex items-center justify-center text-3xl mb-8 transition-colors">🧬</div>
+        <h3 class="text-xl font-black text-indigo-900 dark:text-indigo-300 mb-4 italic transition-colors">Neurodiversidade</h3>
+        <p class="text-gray-500 dark:text-gray-400 text-sm leading-relaxed transition-colors">
           O único sistema que adapta as métricas para crianças com Síndrome de Down, respeitando a biomecânica da hipotonia.
         </p>
       </div>
 
-      <div class="p-8 bg-white rounded-4xl shadow-sm border border-gray-100 hover:shadow-xl transition duration-500">
-        <div class="w-16 h-16 bg-green-100 text-green-600 rounded-2xl flex items-center justify-center text-3xl mb-8">📄</div>
-        <h3 class="text-xl font-black text-gray-800 mb-4 italic">Dados para Saúde</h3>
-        <p class="text-gray-500 text-sm leading-relaxed">
+      <div class="p-8 bg-white dark:bg-gray-900 rounded-4xl shadow-sm border border-gray-100 dark:border-gray-800 hover:shadow-xl dark:hover:shadow-green-900/10 transition duration-500">
+        <div class="w-16 h-16 bg-green-100 dark:bg-green-900/40 text-green-600 dark:text-green-400 rounded-2xl flex items-center justify-center text-3xl mb-8 transition-colors">📄</div>
+        <h3 class="text-xl font-black text-gray-800 dark:text-gray-200 mb-4 italic transition-colors">Dados para Saúde</h3>
+        <p class="text-gray-500 dark:text-gray-400 text-sm leading-relaxed transition-colors">
           Gere relatórios médicos formatados para impressão e facilite a comunicação com pediatras e terapeutas.
         </p>
       </div>
     </div>
   </section>
 
-  <section class="py-24 bg-gray-900 text-white rounded-[4rem] mx-4 mb-24">
+  <section class="py-24 bg-gray-900 dark:bg-gray-800/50 text-white dark:text-gray-100 border border-transparent dark:border-gray-800 rounded-[4rem] mx-4 mb-24 transition-colors duration-300">
     <div class="container mx-auto px-4">
       <div class="text-center mb-16">
         <h2 class="text-3xl md:text-5xl font-black mb-4">Simplicidade para Cuidar</h2>
@@ -61,27 +61,27 @@
 
       <div class="grid md:grid-cols-3 gap-12">
         <div class="text-center space-y-4">
-          <div class="text-4xl font-black text-blue-500">01</div>
+          <div class="text-4xl font-black text-blue-500 dark:text-blue-400">01</div>
           <h4 class="text-xl font-bold">Cadastre o Perfil</h4>
-          <p class="text-sm text-gray-500 leading-relaxed">Insira os dados da criança e escolha a trilha de desenvolvimento (Típica ou Down).</p>
+          <p class="text-sm text-gray-400 leading-relaxed">Insira os dados da criança e escolha a trilha de desenvolvimento (Típica ou Down).</p>
         </div>
         <div class="text-center space-y-4">
-          <div class="text-4xl font-black text-blue-500">02</div>
+          <div class="text-4xl font-black text-blue-500 dark:text-blue-400">02</div>
           <h4 class="text-xl font-bold">Marque as Conquistas</h4>
-          <p class="text-sm text-gray-500 leading-relaxed">Acompanhe a linha do tempo e valide os marcos atingidos conforme eles acontecem.</p>
+          <p class="text-sm text-gray-400 leading-relaxed">Acompanhe a linha do tempo e valide os marcos atingidos conforme eles acontecem.</p>
         </div>
         <div class="text-center space-y-4">
-          <div class="text-4xl font-black text-blue-500">03</div>
+          <div class="text-4xl font-black text-blue-500 dark:text-blue-400">03</div>
           <h4 class="text-xl font-bold">Ganhe Segurança</h4>
-          <p class="text-sm text-gray-500 leading-relaxed">Visualize o progresso através de medalhas e gere documentos para apoio profissional.</p>
+          <p class="text-sm text-gray-400 leading-relaxed">Visualize o progresso através de medalhas e gere documentos para apoio profissional.</p>
         </div>
       </div>
     </div>
   </section>
 
-  <footer class="py-20 text-center container mx-auto px-4 border-t border-gray-200">
-    <h3 class="text-2xl font-black text-blue-900 mb-6 italic">Pronto para começar?</h3>
-    <%= link_to "Criar Minha Conta Agora", new_user_registration_path, class: "inline-block px-12 py-5 bg-blue-600 text-white rounded-2xl font-black text-xl hover:bg-blue-700 transition shadow-2xl shadow-blue-200" %>
+  <footer class="py-20 text-center container mx-auto px-4 border-t border-gray-200 dark:border-gray-800 transition-colors">
+    <h3 class="text-2xl font-black text-blue-900 dark:text-blue-400 mb-6 italic transition-colors">Pronto para começar?</h3>
+    <%= link_to "Criar Minha Conta Agora", new_user_registration_path, class: "inline-block px-12 py-5 bg-blue-600 text-white rounded-2xl font-black text-xl hover:bg-blue-700 transition shadow-2xl shadow-blue-200 dark:shadow-none" %>
     <p class="mt-8 text-xs text-gray-400 font-bold uppercase tracking-widest">
       Projeto Acadêmico © 2026 • Marcos do Desenvolvimento
     </p>

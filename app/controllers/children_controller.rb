@@ -14,10 +14,9 @@ class ChildrenController < ApplicationController
     @achieved_milestones = @child.progresses.where(milestone: @todas_milestones).count
     @percentage = @total_milestones > 0 ? ((@achieved_milestones.to_f / @total_milestones) * 100).round : 0
 
-    # ==========================================
-    # LÓGICA DE GAMIFICAÇÃO (Conquistas por Área)
-    # ==========================================
     @conquistas = {}
+    @stats_data = {} # <-- Variável do Gráfico (Chartkick)
+
     Milestone.defined_enums["categoria"].keys.each do |categoria|
       # Quantos marcos existem nessa categoria para o perfil da criança?
       total_na_categoria = @todas_milestones.where(categoria: categoria).count
@@ -28,11 +27,15 @@ class ChildrenController < ApplicationController
       # Quantos a criança já alcançou?
       alcancados = @child.progresses.joins(:milestone).where(milestones: { categoria: categoria }).count
 
-      # Se alcançou todos, desbloqueia a medalha (true). Senão, fica bloqueada (false).
+      # 1. Lógica das Medalhas: Desbloqueia se alcançou todos da categoria
       @conquistas[categoria] = (total_na_categoria == alcancados)
+
+      # 2. Lógica do Gráfico: Calcula a % e salva no formato esperado pelo Chartkick
+      porcentagem = ((alcancados.to_f / total_na_categoria) * 100).round(0)
+      @stats_data[categoria.humanize] = porcentagem
     end
 
-    # Lógica da linha do tempo (Filtro por idade) - Mantém o que já fizemos!
+    # Lógica da linha do tempo (Filtro por idade)
     @meses_disponiveis = @todas_milestones.pluck(:idade_maxima_meses).uniq.sort
 
     if params[:mes].present?

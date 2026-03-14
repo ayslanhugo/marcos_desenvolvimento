@@ -67,3 +67,7 @@ end
 gem "devise"
 gem "rails-i18n"
 gem "devise-i18n"
+
+gem "chartkick", "~> 5.2"
+
+gem "importmap-rails", "~> 2.2"
