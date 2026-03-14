@@ -1,6 +1,6 @@
 class ChildrenController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_child, only: [ :show, :edit, :update, :destroy ]
+  before_action :set_child, only: [ :show, :edit, :update, :destroy, :report ]
 
   def index
     @children = current_user.children
@@ -9,33 +9,24 @@ class ChildrenController < ApplicationController
   def show
     @todas_milestones = Milestone.where(tipo_desenvolvimento: @child.tipo_desenvolvimento).order(:idade_minima_meses)
 
-    # Lógica da barra de progresso geral
     @total_milestones = @todas_milestones.count
     @achieved_milestones = @child.progresses.where(milestone: @todas_milestones).count
     @percentage = @total_milestones > 0 ? ((@achieved_milestones.to_f / @total_milestones) * 100).round : 0
 
     @conquistas = {}
-    @stats_data = {} # <-- Variável do Gráfico (Chartkick)
+    @stats_data = {}
 
     Milestone.defined_enums["categoria"].keys.each do |categoria|
-      # Quantos marcos existem nessa categoria para o perfil da criança?
       total_na_categoria = @todas_milestones.where(categoria: categoria).count
-
-      # Pula se a categoria não tiver nenhum marco cadastrado ainda
       next if total_na_categoria == 0
 
-      # Quantos a criança já alcançou?
       alcancados = @child.progresses.joins(:milestone).where(milestones: { categoria: categoria }).count
-
-      # 1. Lógica das Medalhas: Desbloqueia se alcançou todos da categoria
       @conquistas[categoria] = (total_na_categoria == alcancados)
 
-      # 2. Lógica do Gráfico: Calcula a % e salva no formato esperado pelo Chartkick
       porcentagem = ((alcancados.to_f / total_na_categoria) * 100).round(0)
       @stats_data[categoria.humanize] = porcentagem
     end
 
-    # Lógica da linha do tempo (Filtro por idade)
     @meses_disponiveis = @todas_milestones.pluck(:idade_maxima_meses).uniq.sort
 
     if params[:mes].present?
@@ -45,6 +36,13 @@ class ChildrenController < ApplicationController
       @mes_selecionado = nil
       @milestones_exibidas = @todas_milestones
     end
+  end
+
+  def report
+    @milestones = Milestone.where(tipo_desenvolvimento: @child.tipo_desenvolvimento).order(:idade_minima_meses)
+    @progresses = @child.progresses.includes(:milestone)
+
+    render layout: "print"
   end
 
   def new
@@ -61,7 +59,6 @@ class ChildrenController < ApplicationController
   end
 
   def edit
-    # O set_child já encontra a criança aqui
   end
 
   def update

@@ -1,0 +1,76 @@
+<div class="border-b-2 border-black pb-4 mb-6">
+  <div class="flex justify-between items-center">
+    <h1 class="text-2xl font-black uppercase tracking-widest text-gray-900">Relatório de Vigilância do Desenvolvimento</h1>
+  </div>
+  <p class="text-sm text-gray-600 mt-2">Gerado via Plataforma Marcos do Desenvolvimento em <%= Time.current.strftime("%d/%m/%Y às %H:%M") %></p>
+</div>
+
+<div class="grid grid-cols-2 gap-x-8 gap-y-4 mb-8 text-sm border-2 border-gray-800 rounded-xl p-5 bg-gray-50">
+  <div><span class="font-bold uppercase text-gray-500 text-xs block">Nome do Paciente</span> <span class="text-lg font-bold text-black"><%= @child.nome %></span></div>
+  <div><span class="font-bold uppercase text-gray-500 text-xs block">Perfil de Desenvolvimento</span> <span class="text-lg font-bold text-black"><%= @child.tipo_desenvolvimento.to_s.humanize %></span></div>
+  <div><span class="font-bold uppercase text-gray-500 text-xs block">Data de Nascimento</span> <span class="text-base text-black"><%= @child.data_nascimento.strftime("%d/%m/%Y") %></span></div>
+  <div><span class="font-bold uppercase text-gray-500 text-xs block">Idade Calculada</span> <span class="text-base font-bold text-blue-700"><%= @child.idade_em_meses %> meses</span></div>
+</div>
+
+<% if @child.progresses.any?(&:red_flag?) %>
+  <div class="border-2 border-red-600 bg-red-50 p-5 mb-8 rounded-xl">
+    <h2 class="font-black text-red-800 uppercase mb-2 text-sm flex items-center gap-2">
+      <span>⚠️</span> Atenção Requerida: Sinais de Regressão Observados
+    </h2>
+    <ul class="list-disc pl-6 text-sm text-red-900 space-y-1">
+      <% @child.progresses.select(&:red_flag?).each do |prog| %>
+         <li><strong><%= prog.milestone.titulo %>:</strong> A habilidade era realizada, mas foi relatada uma perda.</li>
+      <% end %>
+    </ul>
+  </div>
+<% end %>
+
+<h2 class="text-lg font-black uppercase tracking-widest text-gray-800 border-b-2 border-gray-300 mb-4 pb-2">Marcos Avaliados</h2>
+
+<table class="w-full text-sm text-left border-collapse border border-gray-300 mb-12">
+  <thead>
+    <tr class="bg-gray-100 border-b-2 border-gray-400">
+      <th class="border-r border-gray-300 p-3 w-[15%] text-gray-800 font-bold uppercase text-xs">Área</th>
+      <th class="border-r border-gray-300 p-3 w-[25%] text-gray-800 font-bold uppercase text-xs">Habilidade</th>
+      <th class="border-r border-gray-300 p-3 w-[15%] text-center text-gray-800 font-bold uppercase text-xs">Janela (Meses)</th>
+      <th class="border-r border-gray-300 p-3 w-[15%] text-center text-gray-800 font-bold uppercase text-xs">Situação</th>
+      <th class="p-3 w-[30%] text-gray-800 font-bold uppercase text-xs">Diário do Responsável</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @milestones.each do |milestone| %>
+      <% 
+        progress = @progresses.find { |p| p.milestone_id == milestone.id }
+        next unless progress # Só mostra no relatório o que já foi preenchido pelo pai para não sujar o papel
+        
+        status_info = case progress.status
+                      when 'adquirido' then { text: "✔️ Adquirido", color: "text-green-700" }
+                      when 'em_aquisicao' then { text: "⏳ Em Aquisição", color: "text-yellow-600" }
+                      when 'regressao' then { text: "🚨 Regressão", color: "text-red-700 font-bold" }
+                      else { text: "-", color: "text-gray-400" }
+                      end
+      %>
+      <tr class="border-b border-gray-300 align-top">
+        <td class="border-r border-gray-300 p-3 text-gray-600 font-semibold capitalize"><%= milestone.categoria.to_s.humanize %></td>
+        <td class="border-r border-gray-300 p-3 text-gray-900 font-bold">
+          <%= milestone.titulo %><br>
+          <span class="text-xs text-gray-500 font-normal"><%= milestone.descricao %></span>
+        </td>
+        <td class="border-r border-gray-300 p-3 text-center text-gray-600"><%= milestone.idade_minima_meses %> a <%= milestone.idade_maxima_meses %></td>
+        <td class="border-r border-gray-300 p-3 text-center font-bold <%= status_info[:color] %>"><%= status_info[:text] %></td>
+        <td class="p-3 text-gray-700 italic text-xs leading-relaxed"><%= progress.notes.present? ? "\"#{progress.notes}\"" : "" %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<div class="mt-16 pt-8 border-t-2 border-gray-300 flex justify-between items-end">
+  <div class="text-[10px] text-gray-500 font-bold uppercase tracking-widest leading-relaxed">
+    Este relatório reflete anotações domiciliares.<br>
+    Destina-se exclusivamente ao apoio da avaliação pediátrica.
+  </div>
+  <div class="text-center w-64">
+    <div class="border-t border-black mb-2 pt-1"></div>
+    <span class="text-xs font-bold uppercase text-gray-800">Assinatura do Pediatra</span>
+  </div>
+</div>

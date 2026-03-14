@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <title>Relatório Clínico - <%= @child.nome %></title>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
+    
+    <style>
+      @page { size: A4 portrait; margin: 1.5cm; }
+      body { background-color: white !important; color: black !important; font-family: ui-sans-serif, system-ui, sans-serif; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+      table { page-break-inside: auto; }
+      tr { page-break-inside: avoid; page-break-after: auto; }
+      thead { display: table-header-group; }
+    </style>
+  </head>
+
+  <body class="bg-white text-black print:p-0 p-8 max-w-[21cm] mx-auto">
+    <%= yield %>
+
+    <script>
+      window.onload = function() {
+        window.print();
+      }
+    </script>
+  </body>
+</html>
