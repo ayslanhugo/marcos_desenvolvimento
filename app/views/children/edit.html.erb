@@ -1,7 +1,25 @@
-<div class="max-w-md mx-auto mt-10 p-8 bg-white rounded-2xl shadow-sm border border-gray-100">
-  <div class="mb-4">
-    <%= link_to "← Voltar", children_path, class: "text-xs text-blue-600 font-bold hover:underline" %>
+<div class="max-w-2xl mx-auto mt-10 px-4 pb-20">
+  <nav class="mb-8">
+    <%= link_to "← Voltar para Meus Pequenos", children_path, class: "text-blue-600 dark:text-blue-400 hover:underline text-sm font-medium" %>
+  </nav>
+
+  <header class="mb-10 text-center">
+    <h1 class="text-3xl font-extrabold text-blue-900 dark:text-blue-400 mb-2">Editar Dados</h1>
+    <p class="text-gray-600 dark:text-gray-400">Atualize as informações de perfil de <%= @child.nome %></p>
+  </header>
+
+  <div class="bg-white dark:bg-gray-900 p-8 rounded-3xl shadow-sm border border-gray-100 dark:border-gray-800 transition-colors duration-300">
+    <%= render "form", child: @child %>
   </div>
-  <h1 class="text-2xl font-bold text-blue-900 mb-6 text-center">Editar Dados</h1>
-  <%= render "form", child: @child %>
+
+  <% if controller_name == 'children' && action_name == 'edit' %>
+    <div class="mt-12 p-8 bg-red-50 dark:bg-red-900/10 border border-red-100 dark:border-red-900/30 rounded-3xl">
+      <h3 class="text-red-800 dark:text-red-400 font-bold mb-2">Zona Crítica</h3>
+      <p class="text-sm text-red-600 dark:text-red-300/70 mb-6">Ao remover este perfil, todas as avaliações e históricos de marcos serão apagados permanentemente.</p>
+      <%= button_to "Remover perfil de #{@child.nome}", child_path(@child), 
+          method: :delete, 
+          data: { turbo_confirm: "Tem certeza que deseja apagar todos os dados de #{@child.nome}? Esta ação não pode ser desfeita." },
+          class: "text-sm font-black text-red-600 dark:text-red-400 hover:underline cursor-pointer" %>
+    </div>
+  <% end %>
 </div>

@@ -7,10 +7,11 @@ class ChildrenController < ApplicationController
   end
 
   def show
-    @todas_milestones = Milestone.where(tipo_desenvolvimento: @child.tipo_desenvolvimento).order(:idade_minima_meses)
+    @todas_milestones = Milestone.where(tipo_desenvolvimento: @child.tipo_desenvolvimento)
+                                 .order(:idade_minima_meses)
 
-    @total_milestones = @todas_milestones.count
-    @achieved_milestones = @child.progresses.where(milestone: @todas_milestones).count
+    @total_milestones = @child.milestones_count_for_type
+    @achieved_milestones = @child.achieved_milestones_count
     @percentage = @total_milestones > 0 ? ((@achieved_milestones.to_f / @total_milestones) * 100).round : 0
 
     @conquistas = {}
@@ -20,11 +21,12 @@ class ChildrenController < ApplicationController
       total_na_categoria = @todas_milestones.where(categoria: categoria).count
       next if total_na_categoria == 0
 
-      alcancados = @child.progresses.joins(:milestone).where(milestones: { categoria: categoria }).count
-      @conquistas[categoria] = (total_na_categoria == alcancados)
+      alcancados = @child.progresses.joins(:milestone)
+                         .where(milestones: { categoria: categoria })
+                         .where(status: :adquirido).count
 
-      porcentagem = ((alcancados.to_f / total_na_categoria) * 100).round(0)
-      @stats_data[categoria.humanize] = porcentagem
+      @conquistas[categoria] = (total_na_categoria == alcancados)
+      @stats_data[categoria.humanize] = ((alcancados.to_f / total_na_categoria) * 100).round
     end
 
     @meses_disponiveis = @todas_milestones.pluck(:idade_maxima_meses).uniq.sort
@@ -41,7 +43,6 @@ class ChildrenController < ApplicationController
   def report
     @milestones = Milestone.where(tipo_desenvolvimento: @child.tipo_desenvolvimento).order(:idade_minima_meses)
     @progresses = @child.progresses.includes(:milestone)
-
     render layout: "print"
   end
 
@@ -52,26 +53,26 @@ class ChildrenController < ApplicationController
   def create
     @child = current_user.children.build(child_params)
     if @child.save
-      redirect_to children_path, notice: "Perfil criado com sucesso!"
+      redirect_to children_path, notice: "Perfil de #{@child.nome} criado com sucesso!"
     else
       render :new, status: :unprocessable_entity
     end
   end
 
-  def edit
-  end
+  def edit; end
 
   def update
     if @child.update(child_params)
-      redirect_to children_path, notice: "Dados atualizados com sucesso!"
+      redirect_to children_path, notice: "Dados de #{@child.nome} atualizados!"
     else
       render :edit, status: :unprocessable_entity
     end
   end
 
   def destroy
+    nome_crianca = @child.nome
     @child.destroy
-    redirect_to children_path, notice: "Perfil removido.", status: :see_other
+    redirect_to children_path, notice: "O perfil de #{nome_crianca} foi removido.", status: :see_other
   end
 
   private
