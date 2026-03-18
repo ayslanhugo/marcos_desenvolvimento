@@ -1,12 +1,35 @@
+<%# 1. Atualiza o Card do Marco específico %>
 <%= turbo_stream.replace dom_id(@milestone) do %>
   <%= render partial: "children/milestone_card", locals: { milestone: @milestone, child: @child } %>
 <% end %>
 
+<%# 2. Mostra o aviso flutuante de sucesso %>
 <%= turbo_stream.prepend "flash_messages" do %>
-  <div class="fixed top-4 right-4 z-[100] animate-bounce-in" id="flash_<%= @milestone.id %>">
+  <div class="fixed top-4 right-4 z-100 animate-bounce-in" id="flash_<%= @milestone.id %>" onanimationend="setTimeout(() => { this.remove() }, 3000)">
     <div class="bg-green-600 text-white px-6 py-3 rounded-2xl shadow-2xl font-bold flex items-center gap-2">
       <span>✅</span>
       <span><%= @child.nome %>: Marco atualizado!</span>
     </div>
+  </div>
+<% end %>
+
+<%# 3. Atualiza a Barra de Progresso no topo da página %>
+<%= turbo_stream.replace "progresso_geral" do %>
+  <% 
+    # Recalculamos os valores para a barra atualizar em tempo real
+    # Ajustei para usar o filtro de categoria se houver, ou o total geral
+    total = @child.milestones_count_for_type 
+    achieved = @child.progresses.where(status: "adquirido").count
+    perc = total > 0 ? (achieved.to_f / total * 100).round : 0
+  %>
+  <div id="progresso_geral" class="mb-10 bg-white dark:bg-gray-900 p-6 rounded-3xl shadow-sm border border-blue-50 dark:border-gray-800 transition-colors">
+    <div class="flex justify-between items-end mb-3">
+      <h3 class="text-xs font-bold text-blue-800 dark:text-blue-400 uppercase tracking-widest">Progresso Geral</h3>
+      <span class="text-xs font-bold text-gray-500 dark:text-gray-400"><%= achieved %> de <%= total %> concluídos</span>
+    </div>
+    <div class="w-full bg-gray-100 dark:bg-gray-800 rounded-full h-4 overflow-hidden">
+      <div class="bg-blue-600 dark:bg-blue-500 h-full transition-all duration-1000" style="width: <%= perc %>%"></div>
+    </div>
+    <p class="mt-2 text-right font-black text-blue-900 dark:text-blue-400 text-sm"><%= perc %>% concluído</p>
   </div>
 <% end %>

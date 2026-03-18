@@ -38,19 +38,24 @@
   <% end %>
 
   <div>
-    <%# Cards de Progresso Geral %>
     <div class="mb-10 bg-white dark:bg-gray-900 p-6 rounded-3xl shadow-sm border border-blue-50 dark:border-gray-800 transition-colors">
+      
+    <div>
+
+    <div id="progresso_geral_container" class="mb-10 bg-white dark:bg-gray-900 p-6 rounded-3xl shadow-sm border border-blue-50 dark:border-gray-800 transition-colors">
+      
       <div class="flex justify-between items-end mb-3">
         <h3 class="text-xs font-bold text-blue-800 dark:text-blue-400 uppercase tracking-widest">Progresso Geral</h3>
         <span class="text-xs font-bold text-gray-500 dark:text-gray-400"><%= @achieved_milestones %> de <%= @total_milestones %> concluídos</span>
       </div>
+
       <div class="w-full bg-gray-100 dark:bg-gray-800 rounded-full h-4 overflow-hidden">
         <div class="bg-blue-600 dark:bg-blue-500 h-full transition-all duration-1000" style="width: <%= @percentage %>%"></div>
       </div>
+      
       <p class="mt-2 text-right font-black text-blue-900 dark:text-blue-400 text-sm"><%= @percentage %>% concluído</p>
     </div>
 
-    <%# Gráfico de Desempenho %>
     <div class="mb-10 bg-white dark:bg-gray-900 p-8 rounded-4xl shadow-sm border border-gray-100 dark:border-gray-800 transition-colors">
       <h3 class="text-xs font-black text-gray-400 dark:text-gray-500 uppercase tracking-[0.2em] mb-10 text-center">
         Desempenho por Área de Desenvolvimento
@@ -61,7 +66,6 @@
     </div>
   </div>
 
-  <%# Mural de Conquistas %>
   <div class="mb-12 bg-white dark:bg-gray-900 p-6 rounded-3xl shadow-sm border border-yellow-50 dark:border-gray-800 transition-colors">
     <div class="flex items-center gap-2 mb-6">
       <h3 class="text-xs font-bold text-yellow-600 dark:text-yellow-500 uppercase tracking-widest">Mural de Conquistas</h3>
@@ -86,7 +90,6 @@
     </div>
   </div>
 
-  <%# Navegação por Meses %>
   <div class="mb-12">
     <h3 class="text-xs font-bold text-gray-500 dark:text-gray-400 uppercase tracking-widest mb-4">Linha do Tempo (Meses)</h3>
     <div class="flex space-x-3 overflow-x-auto pb-4 timeline-nav">
@@ -97,7 +100,6 @@
     </div>
   </div>
 
-  <%# LISTAGEM DE MARCOS (Onde a mágica acontece) %>
   <div class="space-y-12">
     <% if @milestones_exibidas.empty? %>
       <div class="text-center py-16 bg-white dark:bg-gray-900 rounded-3xl border-2 border-dashed border-gray-200 dark:border-gray-800 transition-colors">
@@ -113,7 +115,6 @@
 
           <div class="grid gap-6">
             <% marcos.each do |milestone| %>
-              <%# CHAMADA DO PARTIAL: Tudo o que era o card e o modal agora está no arquivo _milestone_card.html.erb %>
               <%= render partial: "children/milestone_card", locals: { milestone: milestone, child: @child } %>
             <% end %>
           </div>
