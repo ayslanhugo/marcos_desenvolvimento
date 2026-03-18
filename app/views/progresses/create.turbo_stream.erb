@@ -1,0 +1,12 @@
+<%= turbo_stream.replace dom_id(@milestone) do %>
+  <%= render partial: "children/milestone_card", locals: { milestone: @milestone, child: @child } %>
+<% end %>
+
+<%= turbo_stream.prepend "flash_messages" do %>
+  <div class="fixed top-4 right-4 z-[100] animate-bounce-in" id="flash_<%= @milestone.id %>">
+    <div class="bg-green-600 text-white px-6 py-3 rounded-2xl shadow-2xl font-bold flex items-center gap-2">
+      <span>✅</span>
+      <span><%= @child.nome %>: Marco atualizado!</span>
+    </div>
+  </div>
+<% end %>
