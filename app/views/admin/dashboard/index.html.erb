@@ -1,0 +1,99 @@
+<div class="max-w-6xl mx-auto mt-6 md:mt-10 px-4 pb-20">
+  <header class="mb-8 flex justify-between items-end border-b border-gray-200 dark:border-gray-800 pb-4">
+    <div>
+      <h1 class="text-3xl font-black text-gray-900 dark:text-white">Painel Administrativo</h1>
+      <p class="text-gray-500 dark:text-gray-400 mt-1">Visão geral da plataforma.</p>
+    </div>
+    <div class="flex gap-4 items-center">
+      <%= link_to admin_exportar_csv_path(format: :csv), data: { turbo: false }, target: "_top", class: "flex items-center gap-2 bg-green-600 hover:bg-green-700 text-white text-sm font-bold py-2 px-4 rounded-lg transition-colors" do %>
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" /></svg>
+        Exportar Base (CSV)
+      <% end %>
+      
+      <%= link_to "Sair do Painel", root_path, class: "text-sm font-bold text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white" %>
+    </div>
+  </header>
+
+  <% if notice %>
+    <div class="mb-6 bg-green-50 dark:bg-green-900/30 text-green-700 dark:text-green-400 p-4 rounded-xl border border-green-200 dark:border-green-800 font-semibold text-sm">
+      <%= notice %>
+    </div>
+  <% end %>
+  <% if alert %>
+    <div class="mb-6 bg-red-50 dark:bg-red-900/30 text-red-700 dark:text-red-400 p-4 rounded-xl border border-red-200 dark:border-red-800 font-semibold text-sm">
+      <%= alert %>
+    </div>
+  <% end %>
+
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+    <div class="bg-white dark:bg-gray-900 p-6 rounded-2xl shadow-sm border border-gray-100 dark:border-gray-800">
+      <h3 class="text-xs font-bold text-gray-500 uppercase tracking-wider mb-2">Total de Famílias</h3>
+      <div class="text-4xl font-black text-blue-600 dark:text-blue-500"><%= @total_users %></div>
+    </div>
+    <div class="bg-white dark:bg-gray-900 p-6 rounded-2xl shadow-sm border border-gray-100 dark:border-gray-800">
+      <h3 class="text-xs font-bold text-gray-500 uppercase tracking-wider mb-2">Crianças Acompanhadas</h3>
+      <div class="text-4xl font-black text-green-600 dark:text-green-500"><%= @total_children %></div>
+    </div>
+    <div class="bg-white dark:bg-gray-900 p-6 rounded-2xl shadow-sm border border-gray-100 dark:border-gray-800">
+      <h3 class="text-xs font-bold text-gray-500 uppercase tracking-wider mb-2">Marcos Avaliados</h3>
+      <div class="text-4xl font-black text-purple-600 dark:text-purple-500"><%= @total_progresses %></div>
+    </div>
+  </div>
+
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-12">
+    <div class="bg-white dark:bg-gray-900 p-6 rounded-2xl shadow-sm border border-gray-100 dark:border-gray-800">
+      <h3 class="text-sm font-bold text-gray-800 dark:text-gray-200 mb-4">Adesão de Utilizadores</h3>
+      <%= line_chart @users_growth, colors: ["#2563eb"], height: "250px" %>
+    </div>
+
+    <div class="bg-white dark:bg-gray-900 p-6 rounded-2xl shadow-sm border border-gray-100 dark:border-gray-800">
+      <h3 class="text-sm font-bold text-gray-800 dark:text-gray-200 mb-4">Perfil de Desenvolvimento</h3>
+      <%= pie_chart @children_by_type, colors: ["#16a34a", "#9333ea"], height: "250px", donut: true %>
+    </div>
+  </div>
+
+  <div class="bg-white dark:bg-gray-900 rounded-2xl shadow-sm border border-gray-100 dark:border-gray-800 overflow-hidden">
+    <div class="p-6 border-b border-gray-100 dark:border-gray-800">
+      <h2 class="text-lg font-bold text-gray-800 dark:text-gray-200">Gestão de Contas</h2>
+    </div>
+    
+    <div class="overflow-x-auto">
+      <table class="w-full text-left text-sm">
+        <thead class="bg-gray-50 dark:bg-gray-800/50 text-gray-500 dark:text-gray-400">
+          <tr>
+            <th class="p-4 font-bold uppercase tracking-wider text-xs">E-mail</th>
+            <th class="p-4 font-bold uppercase tracking-wider text-xs">Criado em</th>
+            <th class="p-4 font-bold uppercase tracking-wider text-xs text-center">Status</th>
+            <th class="p-4 font-bold uppercase tracking-wider text-xs text-right">Ações de Gestão</th>
+          </tr>
+        </thead>
+        <tbody class="divide-y divide-gray-100 dark:divide-gray-800">
+          <% @recent_users.each do |u| %>
+            <tr class="hover:bg-gray-50 dark:hover:bg-gray-800/50 transition-colors">
+              <td class="p-4 font-bold text-gray-900 dark:text-gray-100"><%= u.email %></td>
+              <td class="p-4 text-gray-600 dark:text-gray-400"><%= u.created_at.strftime("%d/%m/%Y") %></td>
+              
+              <td class="p-4 text-center">
+                <% if u.admin? %>
+                  <span class="px-2.5 py-1 text-[10px] font-black uppercase tracking-wider bg-purple-100 text-purple-800 rounded-full dark:bg-purple-900/30 dark:text-purple-400">Admin</span>
+                <% else %>
+                  <span class="px-2.5 py-1 text-[10px] font-black uppercase tracking-wider bg-green-100 text-green-800 rounded-full dark:bg-green-900/30 dark:text-green-400">Ativo</span>
+                <% end %>
+              </td>
+              
+              <td class="p-4 text-right flex justify-end gap-2">
+                <%= button_to toggle_admin_admin_user_path(u), method: :patch, disabled: u == current_user, class: "px-3 py-1.5 rounded text-xs font-bold transition-colors #{u.admin? ? 'bg-orange-100 text-orange-700 hover:bg-orange-200 dark:bg-orange-900/30 dark:text-orange-400' : 'bg-blue-100 text-blue-700 hover:bg-blue-200 dark:bg-blue-900/30 dark:text-blue-400'} disabled:opacity-50 disabled:cursor-not-allowed" do %>
+                  <%= u.admin? ? "Tirar Admin" : "Dar Admin" %>
+                <% end %>
+
+                <%= button_to admin_user_path(u), method: :delete, disabled: u == current_user, form: { data: { turbo_confirm: "Tem a certeza que deseja apagar a conta de #{u.email}? Isto irá apagar todas as crianças associadas!" } }, class: "px-3 py-1.5 rounded text-xs font-bold bg-red-100 text-red-700 hover:bg-red-200 dark:bg-red-900/30 dark:text-red-400 transition-colors disabled:opacity-50 disabled:cursor-not-allowed" do %>
+                  Excluir
+                <% end %>
+              </td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

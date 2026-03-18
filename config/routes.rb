@@ -25,5 +25,16 @@ Rails.application.routes.draw do
     resources :progresses, only: [ :create, :update ]
   end
 
+  namespace :admin do
+    root to: "dashboard#index"
+    get "exportar_csv", to: "dashboard#exportar_csv"
+
+    resources :users, only: [ :destroy ] do
+      member do
+        patch :toggle_admin
+      end
+    end
+  end
+
   get "up" => "rails/health#show", as: :rails_health_check
 end
