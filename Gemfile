@@ -72,4 +72,4 @@ gem "chartkick", "~> 5.2"
 
 gem "importmap-rails", "~> 2.2"
 
-gem "minitest", "~> 5.21"
+gem "minitest", "~> 6.0"
