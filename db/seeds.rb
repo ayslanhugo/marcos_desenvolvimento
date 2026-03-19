@@ -1,11 +1,32 @@
 # db/seeds.rb
 
 puts "--- Iniciando a limpeza do banco de dados ---"
-
+# Limpamos os progressos antes dos marcos por causa da dependência (Foreign Key)
 Progress.delete_all
 Milestone.delete_all
 
-puts "--- Semeando Marcos de Desenvolvimento (Referência: Papalia & Feldman) ---"
+puts "--- Verificando Conta Administrador Mestre ---"
+
+admin_email = "admin@master.com"
+admin_password = "123456"
+
+# find_or_initialize_by garante que não vai dar erro se você rodar o seed duas vezes no Render
+admin = User.find_or_initialize_by(email: admin_email)
+
+if admin.new_record?
+  admin.password = admin_password
+  admin.password_confirmation = admin_password
+  admin.admin = true
+  admin.nome = "Administrador Mestre" if admin.respond_to?(:nome)
+  admin.save!
+  puts "✅ Administrador criado com sucesso! Login: #{admin_email} | Senha: #{admin_password}"
+else
+  # Se já existir, apenas garante que a flag admin está ativa
+  admin.update(admin: true)
+  puts "⚡ Conta de administrador já estava configurada: #{admin_email}"
+end
+
+puts "\n--- Semeando Marcos de Desenvolvimento (Referência: Papalia & Feldman) ---"
 
 # --- 1. DESENVOLVIMENTO TÍPICO ---
 tipico_milestones = [
