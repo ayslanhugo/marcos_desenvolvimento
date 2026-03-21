@@ -1,25 +1,25 @@
-<div class="max-w-4xl mx-auto mt-6 md:mt-10 px-4 pb-20 transition-colors duration-300">
+<div data-controller="tour-relatorio" class="max-w-4xl mx-auto mt-6 md:mt-10 px-4 pb-20 transition-colors duration-300">
   
-  <nav class="mb-8">
+  <%# 1. NAVEGAÇÃO SUPERIOR ALINHADA %>
+  <nav class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-10">
     <%= link_to "← Voltar para Meus Pequenos", children_path, class: "text-blue-600 dark:text-blue-400 hover:underline text-sm font-medium" %>
-  </nav>
 
-  <div class="flex justify-end mb-6">
-    <%# ADICIONAMOS O ID: passo3-relatorio AQUI %>
     <%= link_to report_child_path(@child), target: "_blank", id: "passo3-relatorio", class: "flex items-center bg-gray-800 dark:bg-blue-600 text-white px-5 py-2.5 rounded-xl text-sm font-bold hover:bg-black dark:hover:bg-blue-700 transition shadow-lg shadow-gray-200 dark:shadow-none cursor-pointer hover:scale-105" do %>
       <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z" /></svg>
-      Gerar Relatório Médico
+      Gerar Relatório Para o Médico
     <% end %>
-  </div>
+  </nav>
 
+  <%# 2. CABEÇALHO %>
   <header class="mb-10 text-center">
     <h1 class="text-3xl md:text-4xl font-extrabold text-blue-900 dark:text-blue-400 mb-2">Marcos de <%= @child.nome %></h1>
     <p class="text-gray-600 dark:text-gray-400">
       Perfil: <span class="font-semibold"><%= @child.tipo_desenvolvimento.humanize %></span> • 
-      Idade atual: <span class="font-semibold text-blue-700 dark:text-blue-500"><%= @child.idade_em_meses %> meses</span>
+      Idade atual: <span class="font-semibold text-blue-700 dark:text-blue-500"><%= @child.idade_formatada %></span>
     </p>
   </header>
 
+  <%# 3. ALERTA DE RED FLAG %>
   <% if @child.progresses.any?(&:red_flag?) %>
     <div class="mb-10 bg-red-50 dark:bg-red-900/20 border-l-4 border-red-500 p-6 rounded-r-3xl rounded-l-md shadow-sm transition-colors duration-300">
       <div class="flex items-start">
@@ -31,13 +31,14 @@
         <div class="ml-4">
           <h3 class="text-sm font-black text-red-800 dark:text-red-400 uppercase tracking-widest mb-2">Atenção ao Desenvolvimento</h3>
           <p class="text-sm text-red-700 dark:text-red-300 leading-relaxed">
-            O nosso sistema de vigilância identificou que alguns marcos sinalizam possível atraso ou regressão. Não se preocupe, cada criança tem seu ritmo, mas é <strong>altamente recomendado</strong> clicar em "Gerar Relatório Médico" e levar estas anotações para o pediatra do(a) <%= @child.nome %>.
+            O nosso sistema de vigilância identificou que alguns marcos sinalizam possível atraso ou regressão. Não se preocupe, cada criança tem seu ritmo, mas é <strong>altamente recomendado</strong> clicar em "Gerar Relatório Para o Médico" e levar estas anotações para o pediatra do(a) <%= @child.nome %>.
           </p>
         </div>
       </div>
     </div>
   <% end %>
 
+  <%# 4. PROGRESSO GERAL (Fixo) %>
   <div id="progresso_geral_container" class="mb-10 bg-white dark:bg-gray-900 p-6 rounded-3xl shadow-sm border border-blue-50 dark:border-gray-800 transition-colors">
     <div class="flex justify-between items-end mb-3">
       <h3 class="text-xs font-bold text-blue-800 dark:text-blue-400 uppercase tracking-widest">Progresso Geral</h3>
@@ -51,70 +52,88 @@
     <p class="mt-2 text-right font-black text-blue-900 dark:text-blue-400 text-sm"><%= @percentage %>% concluído</p>
   </div>
 
-  <div class="mb-10 bg-white dark:bg-gray-900 p-8 rounded-4xl shadow-sm border border-gray-100 dark:border-gray-800 transition-colors">
-    <h3 class="text-xs font-black text-gray-400 dark:text-gray-500 uppercase tracking-[0.2em] mb-10 text-center">
-      Desempenho por Área de Desenvolvimento
-    </h3>
-    <div class="h-80 w-full">
-      <%= bar_chart @stats_data, suffix: "%", colors: ["#3b82f6"], library: { indexAxis: 'y', plugins: { legend: { display: false } } } %>
+  <%# 5. MENU DE ABAS (TABS) %>
+  <div class="mb-8">
+    <div class="flex space-x-3 overflow-x-auto pb-2 border-b border-gray-200 dark:border-gray-800">
+      <button onclick="window.switchTab('marcos')" id="btn-tab-marcos" class="shrink-0 px-6 py-2.5 rounded-full font-bold text-sm transition bg-blue-600 text-white shadow-md cursor-pointer">
+        Acompanhamento de Marcos
+      </button>
+      <button onclick="window.switchTab('estatisticas')" id="btn-tab-estatisticas" class="shrink-0 px-6 py-2.5 rounded-full font-bold text-sm transition bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 text-gray-600 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-800 cursor-pointer">
+        Estatísticas e Conquistas
+      </button>
     </div>
   </div>
 
-  <div class="mb-12 bg-white dark:bg-gray-900 p-6 rounded-3xl shadow-sm border border-yellow-50 dark:border-gray-800 transition-colors">
-    <div class="flex items-center gap-2 mb-6">
-      <h3 class="text-xs font-bold text-yellow-600 dark:text-yellow-500 uppercase tracking-widest">Mural de Conquistas</h3>
-      <span>🏆</span>
-    </div>
-    <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
-      <% @conquistas.each do |categoria, desbloqueada| %>
-        <% 
-          icone, titulo = case categoria
-            when "motor" then ["🏃", "Atleta Mirim"]
-            when "cognitivo" then ["🧩", "Pequeno Gênio"]
-            when "linguagem" then ["🗣️", "Tagarela"]
-            when "social" then ["🤝", "Amigo de Todos"]
-          end
-          medal_classes = desbloqueada ? "bg-yellow-50 dark:bg-yellow-900/30 border-yellow-200" : "opacity-40 grayscale"
-        %>
-        <div class="flex flex-col items-center p-4 rounded-2xl border-2 <%= medal_classes %>">
-          <div class="text-3xl mb-2"><%= icone %></div>
-          <span class="text-[10px] font-black text-center uppercase"><%= titulo %></span>
-        </div>
-      <% end %>
-    </div>
-  </div>
-
-  <div class="mb-12">
-    <h3 class="text-xs font-bold text-gray-500 dark:text-gray-400 uppercase tracking-widest mb-4">Linha do Tempo (Meses)</h3>
-    <div class="flex space-x-3 overflow-x-auto pb-4 timeline-nav">
-      <%= link_to "Todos", child_path(@child), class: "shrink-0 px-6 py-2.5 rounded-full font-bold text-sm transition #{ @mes_selecionado.nil? ? 'bg-blue-600 text-white' : 'bg-white dark:bg-gray-800 border' }" %>
-      <% @meses_disponiveis.each do |mes| %>
-        <%= link_to "#{mes}m", child_path(@child, mes: mes), class: "shrink-0 px-6 py-2.5 rounded-full font-bold text-sm transition #{ @mes_selecionado == mes ? 'bg-blue-600 text-white' : 'bg-white dark:bg-gray-800 border' }" %>
-      <% end %>
-    </div>
-  </div>
-
-  <div class="space-y-12">
-    <% if @milestones_exibidas.empty? %>
-      <div class="text-center py-16 bg-white dark:bg-gray-900 rounded-3xl border-2 border-dashed border-gray-200 dark:border-gray-800 transition-colors">
-        <p class="text-gray-400 dark:text-gray-500 font-medium">Nenhum marco para esta idade específica.</p>
+  <%# === ABA 1: MARCOS E LINHA DO TEMPO === %>
+  <div id="tab-marcos" class="block animate-in fade-in duration-500">
+    <div class="mb-10">
+      <h3 class="text-xs font-bold text-gray-500 dark:text-gray-400 uppercase tracking-widest mb-4">Filtrar por Idade (Meses)</h3>
+      <div class="flex space-x-3 overflow-x-auto pb-4 timeline-nav">
+        <%= link_to "Todos", child_path(@child), class: "shrink-0 px-6 py-2.5 rounded-full font-bold text-sm transition #{ @mes_selecionado.nil? ? 'bg-blue-600 text-white shadow-md' : 'bg-white dark:bg-gray-800 border dark:border-gray-700 text-gray-600 dark:text-gray-400' }" %>
+        <% @meses_disponiveis.each do |mes| %>
+          <%= link_to "#{mes}m", child_path(@child, mes: mes), class: "shrink-0 px-6 py-2.5 rounded-full font-bold text-sm transition #{ @mes_selecionado == mes ? 'bg-blue-600 text-white shadow-md' : 'bg-white dark:bg-gray-800 border dark:border-gray-700 text-gray-600 dark:text-gray-400' }" %>
+        <% end %>
       </div>
-    <% else %>
-      <% @milestones_exibidas.group_by(&:categoria).each do |categoria, marcos| %>
-        <section>
-          <h2 class="text-xl font-bold text-gray-800 dark:text-gray-100 border-b-4 border-blue-50 dark:border-gray-800 pb-2 mb-8 capitalize flex items-center gap-2">
-            <span class="w-2 h-2 bg-blue-600 dark:bg-blue-500 rounded-full"></span>
-            Área: <%= categoria.to_s.humanize %>
-          </h2>
+    </div>
 
-          <div class="grid gap-6">
-            <% marcos.each do |milestone| %>
-              <%= render partial: "children/milestone_card", locals: { milestone: milestone, child: @child } %>
-            <% end %>
-          </div>
-        </section>
+    <div class="space-y-12">
+      <% if @milestones_exibidas.empty? %>
+        <div class="text-center py-16 bg-white dark:bg-gray-900 rounded-3xl border-2 border-dashed border-gray-200 dark:border-gray-800 transition-colors">
+          <p class="text-gray-400 dark:text-gray-500 font-medium">Nenhum marco para esta idade específica.</p>
+        </div>
+      <% else %>
+        <% @milestones_exibidas.group_by(&:categoria).each do |categoria, marcos| %>
+          <section>
+            <h2 class="text-xl font-bold text-gray-800 dark:text-gray-100 border-b-4 border-blue-50 dark:border-gray-800 pb-2 mb-8 capitalize flex items-center gap-2">
+              <span class="w-2 h-2 bg-blue-600 dark:bg-blue-500 rounded-full"></span>
+              Área: <%= categoria.to_s.humanize %>
+            </h2>
+
+            <div class="grid gap-6">
+              <% marcos.each do |milestone| %>
+                <%= render partial: "children/milestone_card", locals: { milestone: milestone, child: @child } %>
+              <% end %>
+            </div>
+          </section>
+        <% end %>
       <% end %>
-    <% end %>
+    </div>
+  </div>
+
+  <%# === ABA 2: DESEMPENHO E ESTATÍSTICAS === %>
+  <div id="tab-estatisticas" class="hidden animate-in fade-in duration-500">
+    <div class="mb-10 bg-white dark:bg-gray-900 p-8 rounded-4xl shadow-sm border border-gray-100 dark:border-gray-800 transition-colors">
+      <h3 class="text-xs font-black text-gray-400 dark:text-gray-500 uppercase tracking-[0.2em] mb-10 text-center">
+        Desempenho por Área de Desenvolvimento
+      </h3>
+      <div class="h-80 w-full">
+        <%= bar_chart @stats_data, suffix: "%", colors: ["#3b82f6"], library: { indexAxis: 'y', plugins: { legend: { display: false } } } %>
+      </div>
+    </div>
+
+    <div class="mb-12 bg-white dark:bg-gray-900 p-6 rounded-3xl shadow-sm border border-yellow-50 dark:border-gray-800 transition-colors">
+      <div class="flex items-center gap-2 mb-6">
+        <h3 class="text-xs font-bold text-yellow-600 dark:text-yellow-500 uppercase tracking-widest">Mural de Conquistas</h3>
+        <span>🏆</span>
+      </div>
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+        <% @conquistas.each do |categoria, desbloqueada| %>
+          <% 
+            icone, titulo = case categoria
+              when "motor" then ["🏃", "Atleta Mirim"]
+              when "cognitivo" then ["🧩", "Pequeno Gênio"]
+              when "linguagem" then ["🗣️", "Tagarela"]
+              when "social" then ["🤝", "Amigo de Todos"]
+            end
+            medal_classes = desbloqueada ? "bg-yellow-50 dark:bg-yellow-900/30 border-yellow-200" : "opacity-40 grayscale"
+          %>
+          <div class="flex flex-col items-center p-4 rounded-2xl border-2 <%= medal_classes %>">
+            <div class="text-3xl mb-2"><%= icone %></div>
+            <span class="text-[10px] font-black text-center uppercase"><%= titulo %></span>
+          </div>
+        <% end %>
+      </div>
+    </div>
   </div>
 
   <footer class="mt-20 border-t border-gray-200 dark:border-gray-800 pt-10 text-center transition-colors">
@@ -127,3 +146,32 @@
     </div>
   </footer>
 </div>
+
+<%# SCRIPT PARA TROCAR AS ABAS %>
+<script>
+  window.switchTab = function(tabName) {
+    const tabMarcos = document.getElementById('tab-marcos');
+    const tabEstatisticas = document.getElementById('tab-estatisticas');
+    const btnMarcos = document.getElementById('btn-tab-marcos');
+    const btnEstatisticas = document.getElementById('btn-tab-estatisticas');
+
+    const activeClass = "shrink-0 px-6 py-2.5 rounded-full font-bold text-sm transition bg-blue-600 text-white shadow-md cursor-pointer";
+    const inactiveClass = "shrink-0 px-6 py-2.5 rounded-full font-bold text-sm transition bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 text-gray-600 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-800 cursor-pointer";
+
+    if (tabName === 'marcos') {
+      tabMarcos.classList.remove('hidden');
+      tabMarcos.classList.add('block');
+      tabEstatisticas.classList.remove('block');
+      tabEstatisticas.classList.add('hidden');
+      btnMarcos.className = activeClass;
+      btnEstatisticas.className = inactiveClass;
+    } else {
+      tabEstatisticas.classList.remove('hidden');
+      tabEstatisticas.classList.add('block');
+      tabMarcos.classList.remove('block');
+      tabMarcos.classList.add('hidden');
+      btnEstatisticas.className = activeClass;
+      btnMarcos.className = inactiveClass;
+    }
+  }
+</script>

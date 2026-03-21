@@ -6,7 +6,6 @@ export default class extends Controller {
     if (window.tourEstaRodando) return;
     window.tourEstaRodando = true;
 
-    // Destrói rastros se o Turbo falhar
     if (document.querySelector('.driver-active-element')) {
       const activeDriver = window.driver?.(); 
       if(activeDriver) activeDriver.destroy();
@@ -14,17 +13,15 @@ export default class extends Controller {
 
     const path = window.location.pathname;
     const isTelaInicial = path === "/children";
-    const isTelaRelatorio = path.match(/^\/children\/\d+$/); // Verifica se a URL é /children/NUMERO (Tela de Detalhes)
+    const isTelaRelatorio = path.match(/^\/children\/\d+$/); 
     const forcarTour = window.location.search.includes("tour=true");
 
-    // Verifica qual tour rodar baseado na página
     if (isTelaInicial) {
       if (!localStorage.getItem("tour_inicial_concluido") || forcarTour) {
         setTimeout(() => { this.iniciarTourPrincipal(); }, 300);
       }
     } else if (isTelaRelatorio) {
       if (!localStorage.getItem("tour_relatorio_concluido")) {
-        // O Atraso aqui precisa ser maior por causa do banco de dados (800ms)
         setTimeout(() => { this.iniciarTourRelatorio(); }, 800);
       }
     }
@@ -35,7 +32,6 @@ export default class extends Controller {
     if (this.driverObj) this.driverObj.destroy();
   }
 
-  // --- TOUR DA TELA INICIAL ---
   iniciarTourPrincipal() {
     this.driverObj = driver({
       showProgress: true,
@@ -69,8 +65,9 @@ export default class extends Controller {
     this.driverObj.drive();
   }
 
-  // --- TOUR DA TELA DE DETALHES (RELATÓRIO E MARCOS) ---
   iniciarTourRelatorio() {
+    if (this.driverObj) this.driverObj.destroy();
+
     this.driverObj = driver({
       showProgress: true,
       allowClose: true,
@@ -79,8 +76,10 @@ export default class extends Controller {
       prevBtnText: '← Voltar',
       popoverClass: 'driverjs-theme',
       onDestroyStarted: () => {
-        localStorage.setItem("tour_relatorio_concluido", "true");
-        this.driverObj.destroy();
+        if (!this.driverObj.hasNextStep() || confirm("Tem certeza que deseja fechar as dicas?")) {
+          localStorage.setItem("tour_relatorio_concluido", "true");
+          this.driverObj.destroy();
+        }
       }
     });
 
@@ -93,14 +92,21 @@ export default class extends Controller {
       element: elementoAlvo, 
       popover: { 
         title: '✅ Como Avaliar', 
-        description: 'Clique no card da habilidade! Se a criança já consegue fazer, marque como "Adquiriu". Se notar uma piora, marque "Regressão".', 
+        description: 'Ao terminar este tour, você poderá clicar neste cartão. Marque "Adquiriu" se a criança já domina a habilidade, ou anote se ela perdeu alguma ("Regressão").', 
         side: "top" 
       } 
     });
 
     const relatorioBtn = document.querySelector('#passo3-relatorio');
     if (relatorioBtn) {
-      steps.push({ element: '#passo3-relatorio', popover: { title: '📄 Relatório para o Pediatra', description: 'Sempre que for a uma consulta, clique aqui. O sistema vai gerar um Prontuário Médico profissional!', side: "left" } });
+      steps.push({ 
+        element: '#passo3-relatorio', 
+        popover: { 
+          title: '📄 Relatório para o Pediatra', 
+          description: 'Sempre que for a uma consulta, clique aqui. O sistema vai juntar todos os status e observações em um Prontuário para o Médico!', 
+          side: "left" 
+        } 
+      });
     }
 
     if (steps.length > 0) {

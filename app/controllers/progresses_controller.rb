@@ -5,13 +5,10 @@ class ProgressesController < ApplicationController
   def create
     @progress = @child.progresses.find_or_initialize_by(milestone: @milestone)
 
-    respond_to do |format|
-      if @progress.update(progress_params)
-        format.turbo_stream
-        format.html { redirect_to child_path(@child), notice: "Progresso salvo!" }
-      else
-        format.html { redirect_to child_path(@child), alert: "Erro ao salvar." }
-      end
+    if @progress.update(progress_params)
+      redirect_to child_path(@child), notice: "Avaliação salva com sucesso!"
+    else
+      redirect_to child_path(@child), alert: "Erro ao salvar avaliação."
     end
   end
 
