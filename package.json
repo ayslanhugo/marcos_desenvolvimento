@@ -13,6 +13,7 @@
     "chartjs-adapter-date-fns": "^3.0.0",
     "chartkick": "^5.0.1",
     "date-fns": "^4.1.0",
+    "driver.js": "^1.4.0",
     "esbuild": "^0.27.3",
     "tailwindcss": "^4.2.1"
   }

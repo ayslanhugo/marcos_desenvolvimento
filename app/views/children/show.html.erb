@@ -5,7 +5,8 @@
   </nav>
 
   <div class="flex justify-end mb-6">
-    <%= link_to report_child_path(@child), target: "_blank", class: "flex items-center bg-gray-800 dark:bg-blue-600 text-white px-5 py-2.5 rounded-xl text-sm font-bold hover:bg-black dark:hover:bg-blue-700 transition shadow-lg shadow-gray-200 dark:shadow-none cursor-pointer hover:scale-105" do %>
+    <%# ADICIONAMOS O ID: passo3-relatorio AQUI %>
+    <%= link_to report_child_path(@child), target: "_blank", id: "passo3-relatorio", class: "flex items-center bg-gray-800 dark:bg-blue-600 text-white px-5 py-2.5 rounded-xl text-sm font-bold hover:bg-black dark:hover:bg-blue-700 transition shadow-lg shadow-gray-200 dark:shadow-none cursor-pointer hover:scale-105" do %>
       <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z" /></svg>
       Gerar Relatório Médico
     <% end %>
@@ -37,32 +38,25 @@
     </div>
   <% end %>
 
-  <div>
-    <div class="mb-10 bg-white dark:bg-gray-900 p-6 rounded-3xl shadow-sm border border-blue-50 dark:border-gray-800 transition-colors">
-      
-    <div>
-
-    <div id="progresso_geral_container" class="mb-10 bg-white dark:bg-gray-900 p-6 rounded-3xl shadow-sm border border-blue-50 dark:border-gray-800 transition-colors">
-      
-      <div class="flex justify-between items-end mb-3">
-        <h3 class="text-xs font-bold text-blue-800 dark:text-blue-400 uppercase tracking-widest">Progresso Geral</h3>
-        <span class="text-xs font-bold text-gray-500 dark:text-gray-400"><%= @achieved_milestones %> de <%= @total_milestones %> concluídos</span>
-      </div>
-
-      <div class="w-full bg-gray-100 dark:bg-gray-800 rounded-full h-4 overflow-hidden">
-        <div class="bg-blue-600 dark:bg-blue-500 h-full transition-all duration-1000" style="width: <%= @percentage %>%"></div>
-      </div>
-      
-      <p class="mt-2 text-right font-black text-blue-900 dark:text-blue-400 text-sm"><%= @percentage %>% concluído</p>
+  <div id="progresso_geral_container" class="mb-10 bg-white dark:bg-gray-900 p-6 rounded-3xl shadow-sm border border-blue-50 dark:border-gray-800 transition-colors">
+    <div class="flex justify-between items-end mb-3">
+      <h3 class="text-xs font-bold text-blue-800 dark:text-blue-400 uppercase tracking-widest">Progresso Geral</h3>
+      <span class="text-xs font-bold text-gray-500 dark:text-gray-400"><%= @achieved_milestones %> de <%= @total_milestones %> concluídos</span>
     </div>
 
-    <div class="mb-10 bg-white dark:bg-gray-900 p-8 rounded-4xl shadow-sm border border-gray-100 dark:border-gray-800 transition-colors">
-      <h3 class="text-xs font-black text-gray-400 dark:text-gray-500 uppercase tracking-[0.2em] mb-10 text-center">
-        Desempenho por Área de Desenvolvimento
-      </h3>
-      <div class="h-80 w-full">
-        <%= bar_chart @stats_data, suffix: "%", colors: ["#3b82f6"], library: { indexAxis: 'y', plugins: { legend: { display: false } } } %>
-      </div>
+    <div class="w-full bg-gray-100 dark:bg-gray-800 rounded-full h-4 overflow-hidden">
+      <div class="bg-blue-600 dark:bg-blue-500 h-full transition-all duration-1000" style="width: <%= @percentage %>%"></div>
+    </div>
+    
+    <p class="mt-2 text-right font-black text-blue-900 dark:text-blue-400 text-sm"><%= @percentage %>% concluído</p>
+  </div>
+
+  <div class="mb-10 bg-white dark:bg-gray-900 p-8 rounded-4xl shadow-sm border border-gray-100 dark:border-gray-800 transition-colors">
+    <h3 class="text-xs font-black text-gray-400 dark:text-gray-500 uppercase tracking-[0.2em] mb-10 text-center">
+      Desempenho por Área de Desenvolvimento
+    </h3>
+    <div class="h-80 w-full">
+      <%= bar_chart @stats_data, suffix: "%", colors: ["#3b82f6"], library: { indexAxis: 'y', plugins: { legend: { display: false } } } %>
     </div>
   </div>
 

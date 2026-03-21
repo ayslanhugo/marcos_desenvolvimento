@@ -9,3 +9,6 @@ application.register("hello", HelloController)
 
 import ThemeController from "./theme_controller"
 application.register("theme", ThemeController)
+
+import TourController from "./tour_controller"
+application.register("tour", TourController)

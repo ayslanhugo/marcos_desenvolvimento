@@ -2,5 +2,5 @@
 athos:
   nome: Athos
   data_nascimento: <%= 5.months.ago.to_date %>
-  tipo_desenvolvimento: 0 # 0 é 'tipico', 1 seria 'down'
-  user: responsavel # Faz o vínculo com o usuário acima
+  tipo_desenvolvimento: 0 
+  user: responsavel 

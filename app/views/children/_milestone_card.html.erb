@@ -32,7 +32,7 @@
 
 <%= turbo_frame_tag dom_id(milestone) do %>
   <%# 1. O CARD VISÍVEL %>
-  <div class="milestone-card relative p-6 rounded-3xl border-2 transition-all duration-300 flex flex-col cursor-pointer <%= card_classes %>" 
+  <div class="tour-alvo-marcar milestone-card relative p-6 rounded-3xl border-2 transition-all duration-300 flex flex-col cursor-pointer <%= card_classes %>" 
        onclick="document.getElementById('modal_milestone_<%= milestone.id %>').showModal()">
     
     <div class="flex justify-between items-start mb-2">

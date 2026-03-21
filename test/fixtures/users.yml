@@ -1,5 +1,3 @@
-# test/fixtures/users.yml
 responsavel:
   email: pai@teste.com
-  # O Devise exige que a senha seja criptografada no banco. Aqui criptografamos "senha123"
   encrypted_password: <%= Devise::Encryptor.digest(User, 'senha123') %>
