@@ -67,7 +67,7 @@
   <%# === ABA 1: MARCOS E LINHA DO TEMPO === %>
   <div id="tab-marcos" class="block animate-in fade-in duration-500">
     <div class="mb-10">
-      <h3 class="text-xs font-bold text-gray-500 dark:text-gray-400 uppercase tracking-widest mb-4">Filtrar por Idade (Meses)</h3>
+      <h3 class="text-xs font-bold text-gray-500 dark:text-gray-400 uppercase tracking-widest mb-4">Filtro de Marcos por Idade (Meses)</h3>
       <div class="flex space-x-3 overflow-x-auto pb-4 timeline-nav">
         <%= link_to "Todos", child_path(@child), class: "shrink-0 px-6 py-2.5 rounded-full font-bold text-sm transition #{ @mes_selecionado.nil? ? 'bg-blue-600 text-white shadow-md' : 'bg-white dark:bg-gray-800 border dark:border-gray-700 text-gray-600 dark:text-gray-400' }" %>
         <% @meses_disponiveis.each do |mes| %>
